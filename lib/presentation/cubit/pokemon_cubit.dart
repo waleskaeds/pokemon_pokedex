@@ -28,19 +28,18 @@ class PokemonCubit extends Cubit<PokemonState> {
     _query = value;
     _emitFilter();
   }
-  
+
   void updateSort(PokemonSort value) {
     _sort = value;
     _emitFilter();
   }
-  
+
   void _emitFilter() {
     List<Pokemon> filter = List.from(_allPokemons);
 
     if (_query.isNotEmpty) {
       filter = filter.where((pokemon) {
-        final nameMatch =
-            pokemon.name.toLowerCase().contains(_query.toLowerCase());
+        final nameMatch = pokemon.name.toLowerCase().contains(_query.toLowerCase());
         final codeMatch = pokemon.id.toString().contains(_query);
 
         return nameMatch || codeMatch;
@@ -61,13 +60,15 @@ class PokemonCubit extends Cubit<PokemonState> {
         break;
     }
 
-    emit(
-      PokemonLoaded(
-        pokemons: filter,
-        query: _query,
-        sort: _sort,
-      ),
-    );
+    emit(PokemonLoaded(pokemons: filter, query: _query, sort: _sort));
   }
-  
+
+  List<Pokemon> getNextEvolutions(Pokemon pokemon) {
+    if (pokemon.nextEvolution == null) return [];
+
+    return _allPokemons.where((p) {
+      return pokemon.nextEvolution!.any((e) => e.num == p.number);
+    }).toList();
+  }
+
 }

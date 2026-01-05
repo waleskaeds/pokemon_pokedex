@@ -21,7 +21,7 @@ class PokemonLoaded extends PokemonState {
   const PokemonLoaded({required this.pokemons, required this.query, required this.sort});
 
   @override
-  List<Object?> get props => [pokemons];
+  List<Object?> get props => [pokemons, query, sort];
 }
 
 class PokemonError extends PokemonState {
