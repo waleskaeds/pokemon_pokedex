@@ -1,4 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokemon_pokedex/data/datasources/pokemon_remote_datasource.dart';
+import 'package:pokemon_pokedex/domain/repositories/pokemon_repository.dart';
+import 'package:pokemon_pokedex/domain/usecases/get_pokemons_usecase.dart';
+import 'package:pokemon_pokedex/presentation/cubit/pokemon_cubit.dart';
+import 'package:pokemon_pokedex/presentation/pages/pokemon_list_page.dart';
 
 void main() {
   runApp(const App());
@@ -9,24 +16,23 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Pokédex',
-      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromRGBO(211, 10, 64, 1))),
-      home: const MyWidget(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<PokemonCubit>(
+          create: (_) {
+            final dio = Dio();
+            final datasource = PokemonRemoteDatasourceImpl(dio);
+            final repository = PokemonRepositoryImpl(datasource);
+            final usecase = GetPokemonsUsecase(repository);
+
+            return PokemonCubit(usecase);
+          },
+        )
+      ],
+      child: MaterialApp(
+        title: 'Pokédex', 
+        home: const PokemonListPage(),
+      )
     );
-  }
-}
-
-class MyWidget extends StatefulWidget {
-  const MyWidget({super.key});
-
-  @override
-  State<MyWidget> createState() => _MyWidgetState();
-}
-
-class _MyWidgetState extends State<MyWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }
