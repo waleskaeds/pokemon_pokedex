@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokemon_pokedex/presentation/widgets/header/pokemon_header.dart';
 
 class PokemonListHeader extends StatelessWidget {
   const PokemonListHeader({super.key});
@@ -12,37 +13,19 @@ class PokemonListHeader extends StatelessWidget {
       color: Colors.white,
       child: Stack(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: size.width,
-                height: size.height * 0.25,
-                decoration: const BoxDecoration(
-                  color: Color.fromRGBO(211, 10, 64, 1),
-                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
-                ),
-                padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Pokédex',
-                      style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.w500),
-                    ),
-                    const SizedBox(height: 12),
-                    Image.asset('assets/images/pokebola.png', height: 32),
-                  ],
-                ),
-              ),
-            ],
-          ),
-
-          /// img do pokemon
-          Positioned(
-            top: size.height * 0.03,
-            right: -55,
-            child: Image.asset('assets/images/koraidon.png', height: size.height * 0.75, fit: BoxFit.contain),
+          PokemonHeader(
+            title: const Text(
+              'Pokédex',
+              style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.w500),
+            ),
+            spacingTitles: 12,
+            subtitle: Image.asset('assets/images/pokebola.png', height: 32),
+            superimposedImage: Positioned(
+              top: size.height * 0.03,
+              right: -55,
+              child: Image.asset('assets/images/koraidon.png', height: size.height * 0.75, fit: BoxFit.contain),
+            ),
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
           ),
 
           /// fade
