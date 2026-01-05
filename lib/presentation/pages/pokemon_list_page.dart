@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokemon_pokedex/presentation/widgets/pokemon_list_filter.dart';
-import 'package:pokemon_pokedex/presentation/widgets/pokemon_list_header.dart';
+import 'package:pokemon_pokedex/presentation/widgets/filters/pokemon_filters.dart';
+import 'package:pokemon_pokedex/presentation/widgets/header/pokemon_list_header.dart';
 import '../cubit/pokemon_cubit.dart';
 import '../cubit/pokemon_state.dart';
-import '../widgets/pokemon_list_card.dart';
+import '../widgets/cards/pokemon_card.dart';
 
 class PokemonListPage extends StatefulWidget {
   const PokemonListPage({super.key});
