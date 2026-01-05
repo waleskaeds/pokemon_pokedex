@@ -20,7 +20,7 @@ class PokemonCubit extends Cubit<PokemonState> {
       _allPokemons = await getPokemonsUsecase.call();
       _emitFilter();
     } catch (e) {
-      emit(const PokemonError('Failed to load pokemons'));
+      emit(PokemonError(_mapErrorMessage(e.toString())));
     }
   }
 
@@ -69,6 +69,18 @@ class PokemonCubit extends Cubit<PokemonState> {
     return _allPokemons.where((p) {
       return pokemon.nextEvolution!.any((e) => e.num == p.number);
     }).toList();
+  }
+
+  String _mapErrorMessage(String error) {
+    if (error.contains('no_internet')) {
+      return 'Sem conexão com a internet. Verifique sua rede.';
+    }
+
+    if (error.contains('server_error')) {
+      return 'Servidor indisponível no momento. Tente novamente.';
+    }
+
+    return 'Erro inesperado ao carregar os Pokémons.';
   }
 
 }
