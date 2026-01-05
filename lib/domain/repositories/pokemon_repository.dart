@@ -14,7 +14,7 @@ class PokemonRepositoryImpl implements PokemonRepository {
     try {
       return await remoteDatasource.getPokemons();
     } catch (e){
-      throw Exception('Error fetching pokemons');
+      rethrow;
     }
   }
 }
