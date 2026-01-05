@@ -11,19 +11,40 @@ abstract class PokemonRemoteDatasource {
 class PokemonRemoteDatasourceImpl implements PokemonRemoteDatasource {
   final Dio dio;
   PokemonRemoteDatasourceImpl(this.dio);
+  static const String url = 'https://raw.githubusercontent.com/Biuni/PokemonGo-Pokedex/master/pokedex.json';
 
   @override
   Future<List<Pokemon>> getPokemons() async {
-    final response = await dio.get(
-      'https://raw.githubusercontent.com/Biuni/PokemonGo-Pokedex/master/pokedex.json'
-    );
-    if(response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.data);
-      final List<dynamic> results = data['pokemon'];
-      
-      return results.map((json) => PokemonModel.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load pokemons. Server error: ${response.statusCode}');
+    int attempts = 0;
+
+    while (attempts < 3) {
+      try {
+        final response = await dio.get(url);
+
+        if (response.statusCode == 200) {
+          final Map<String, dynamic> data = jsonDecode(response.data);
+          final List<dynamic> results = data['pokemon'];
+
+          return results
+              .map((json) => PokemonModel.fromJson(json))
+              .toList();
+        } else {
+          throw Exception('server_error_${response.statusCode}');
+        }
+      } on DioException catch (e) {
+        attempts++;
+
+        if (attempts >= 3) {
+          if (e.type == DioExceptionType.connectionError ||
+              e.type == DioExceptionType.connectionTimeout) {
+            throw Exception('no_internet');
+          }
+
+          throw Exception('server_error');
+        }
+      }
     }
+
+    throw Exception('unexpected_error');
   }
 }
