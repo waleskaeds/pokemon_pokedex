@@ -4,7 +4,7 @@ import 'package:pokemon_pokedex/presentation/cubit/pokemon_cubit.dart';
 import 'package:pokemon_pokedex/presentation/widgets/evolution/pokemon_evolution.dart';
 import 'package:pokemon_pokedex/presentation/widgets/header/pokemon_header.dart';
 import 'package:pokemon_pokedex/presentation/widgets/skills/pokemon_skills_list.dart';
-import 'package:pokemon_pokedex/presentation/widgets/stats/pokemon_%20statistic.dart';
+import 'package:pokemon_pokedex/presentation/widgets/stats/pokemon_statistic.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_pokedex/presentation/widgets/types/pokemon_type_list.dart';
 
